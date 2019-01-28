@@ -59,7 +59,7 @@ public class BookServiceImpl implements BookService{
         Book detachedBook = bookCommandToBook.convert(command);
 
         author.addBook(detachedBook);
-        //authorRepository.save(author);
+        authorRepository.save(author);
         detachedBook.setAuthor(author);
 
         Book savedBook = bookRepository.save(detachedBook);
