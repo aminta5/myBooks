@@ -1,6 +1,5 @@
 package com.medialab.mybooks.commands;
 
-import com.medialab.mybooks.model.Author;
 
 import javax.validation.constraints.NotBlank;
 
@@ -13,8 +12,7 @@ public class BookCommand {
 
     @NotBlank(message = "ISBN is required")
     private String isbn;
-    private Author author;
-    private Long authorId;
+    private AuthorCommand authorCommand;
 
     //constructor
 
@@ -24,20 +22,12 @@ public class BookCommand {
     //getters and setters
 
 
-    public Long getAuthorId() {
-        return authorId;
+    public AuthorCommand getAuthorCommand() {
+        return authorCommand;
     }
 
-    public void setAuthorId(Long authorId) {
-        this.authorId = authorId;
-    }
-
-    public Author getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(Author author) {
-        this.author = author;
+    public void setAuthorCommand(AuthorCommand authorCommand) {
+        this.authorCommand = authorCommand;
     }
 
     public Long getId() {

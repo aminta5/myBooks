@@ -1,7 +1,5 @@
 package com.medialab.mybooks.commands;
 
-import com.medialab.mybooks.model.Book;
-
 import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +12,8 @@ public class AuthorCommand {
 
     @NotBlank(message = "Last name is required")
     private String lastName;
-    private List<Book> books = new ArrayList<>();
+
+    private List<BookCommand> books = new ArrayList<>();
 
     //constructor
 
@@ -47,14 +46,14 @@ public class AuthorCommand {
         this.lastName = lastName;
     }
 
-    public List<Book> getBooks() {
+    public List<BookCommand> getBooks() {
         return books;
     }
 
-    public void setBooks(List<Book> books) {
+    public void setBooks(List<BookCommand> books) {
         this.books = books;
     }
-    public void addBook(Book book) {
+    public void addBook(BookCommand book) {
         this.books.add(book);
     }
 }

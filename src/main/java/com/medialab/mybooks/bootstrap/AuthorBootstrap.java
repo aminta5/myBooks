@@ -25,7 +25,7 @@ public class AuthorBootstrap implements ApplicationListener<ContextRefreshedEven
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
-        authorRepository.saveAll(getAuthors());
+        //authorRepository.saveAll(getAuthors());
     }
 
     private Set<Author> getAuthors(){
