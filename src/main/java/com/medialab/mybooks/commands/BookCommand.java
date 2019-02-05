@@ -12,7 +12,7 @@ public class BookCommand {
 
     @NotBlank(message = "ISBN is required")
     private String isbn;
-    private AuthorCommand authorCommand;
+    private Long authorId;
 
     //constructor
 
@@ -22,12 +22,12 @@ public class BookCommand {
     //getters and setters
 
 
-    public AuthorCommand getAuthorCommand() {
-        return authorCommand;
+    public Long getAuthorId() {
+        return authorId;
     }
 
-    public void setAuthorCommand(AuthorCommand authorCommand) {
-        this.authorCommand = authorCommand;
+    public void setAuthorId(Long authorId) {
+        this.authorId = authorId;
     }
 
     public Long getId() {

@@ -7,16 +7,14 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class BookToBookCommand implements Converter<Book, BookCommand> {
-    private final AuthorToAuthorCommand authorToAuthorCommand;
     //constructor
 
-    public BookToBookCommand(AuthorToAuthorCommand authorToAuthorCommand) {
-        this.authorToAuthorCommand = authorToAuthorCommand;
+    public BookToBookCommand() {
     }
 
     @Override
     public BookCommand convert(Book source) {
-        /*if(source == null){
+        if(source == null){
             return null;
         }
 
@@ -24,10 +22,8 @@ public class BookToBookCommand implements Converter<Book, BookCommand> {
 
         if(source.getAuthor() != null){
             bookCommand.setAuthorId(source.getAuthor().getId());
-        }*/
-        final BookCommand bookCommand = new BookCommand();
+        }
 
-        bookCommand.setAuthorCommand(authorToAuthorCommand.convert(source.getAuthor()));
         bookCommand.setId(source.getId());
         bookCommand.setTitle(source.getTitle());
         bookCommand.setIsbn(source.getIsbn());

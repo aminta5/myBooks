@@ -2,6 +2,7 @@ package com.medialab.mybooks.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.Objects;
 
 @Entity
 public class Book {
@@ -17,6 +18,7 @@ public class Book {
     private String isbn;
 
     @ManyToOne
+    @JoinColumn(name="authorId")
     private Author author;
 
 
@@ -26,12 +28,17 @@ public class Book {
     public Book() {
     }
 
-    public Book(String title, String isbn) {
+    public Book(@NotBlank(message = "Title is required") String title, @NotBlank(message = "ISBN is required") String isbn, Author author) {
+        this.title = title;
+        this.isbn = isbn;
+        this.author = author;
+    }
+
+    //constructor for bootstrap class initialization
+    public Book(@NotBlank(message = "Title is required") String title, @NotBlank(message = "ISBN is required") String isbn) {
         this.title = title;
         this.isbn = isbn;
     }
-
-
 
     //getters and setters
 
@@ -71,5 +78,20 @@ public class Book {
     @Override
     public String toString() {
         return title;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Book book = (Book) o;
+        return id.equals(book.id) &&
+                title.equals(book.title) &&
+                isbn.equals(book.isbn);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, title, isbn);
     }
 }

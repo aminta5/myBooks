@@ -53,10 +53,22 @@ public class BookServiceImpl implements BookService{
     @Override
     @Transactional
     public BookCommand saveBookCommand(BookCommand command) {
-        Author author = authorCommandToAuthor.convert(command.getAuthorCommand());
-        author.addBook(bookCommandToBook.convert(command));
+        Author author = authorRepository.findById(command.getAuthorId()).get();
+        Book book = bookCommandToBook.convert(command);
+        book.setAuthor(author);
+        author.addBook(book);
+        System.out.println(author.getBooks());
+
         Author savedAuthor = authorRepository.save(author);
-        return bookToBookCommand.convert(savedAuthor.getBooks().stream().filter(book -> book.getId().equals(command.getId())).findFirst().get());
+
+        Optional<Book> savedBookOptional = savedAuthor.getBooks().stream().filter(book1 -> book1.getId().equals(command.getId())).findFirst();
+        System.out.println(savedBookOptional.isPresent() + " BOOKOPTIONAL");
+        return bookToBookCommand.convert(savedBookOptional.get());
+
+
+        /*Book detachedBook = bookCommandToBook.convert(command);
+        Book savedBook = bookRepository.save(detachedBook);
+        return bookToBookCommand.convert(savedBook);*/
 
 
 
@@ -89,7 +101,7 @@ public class BookServiceImpl implements BookService{
     @Override
     public Book deleteById(Long id) {
         Book bookDel = bookRepository.findById(id).get();
-        Author author = bookDel.getAuthor();
+        Author author = authorRepository.findById(bookDel.getAuthor().getId()).get();
         author.getBooks().remove(bookDel);
         authorRepository.save(author);
         bookRepository.delete(bookDel);

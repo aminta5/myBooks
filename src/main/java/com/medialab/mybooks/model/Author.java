@@ -1,9 +1,13 @@
 package com.medialab.mybooks.model;
 
+import org.hibernate.annotations.Cascade;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
 @Entity
 public class Author {
     @Id
@@ -15,7 +19,8 @@ public class Author {
     @NotBlank(message = "Last name is required")
     private String lastName;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "author")
+    @OneToMany(mappedBy = "author")
+    @Cascade({org.hibernate.annotations.CascadeType.ALL})
     private List<Book> books = new ArrayList<>();
 
     //constructors
@@ -24,11 +29,17 @@ public class Author {
     public Author() {
     }
 
+    //constructor for bootstraps class data initialization
     public Author(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
     }
 
+    public Author(@NotBlank(message = "First name is required") String firstName, @NotBlank(message = "Last name is required") String lastName, List<Book> books) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.books = books;
+    }
 
     //getters and setters
 
@@ -61,6 +72,22 @@ public class Author {
     }
 
     public void addBook(Book book) {
+        book.setAuthor(this);
         this.books.add(book);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Author author = (Author) o;
+        return id.equals(author.id) &&
+                firstName.equals(author.firstName) &&
+                lastName.equals(author.lastName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, firstName, lastName);
     }
 }

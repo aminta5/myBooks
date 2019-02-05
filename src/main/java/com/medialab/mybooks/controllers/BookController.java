@@ -35,7 +35,7 @@ public class BookController {
     @RequestMapping("author/{id}/add")
     public String addBook(@PathVariable String id, Model model){
         BookCommand bookCommand = new BookCommand();
-        bookCommand.setAuthorCommand(authorService.findCommandById(Long.valueOf(id)));
+        bookCommand.setAuthorId(Long.valueOf(id));
         model.addAttribute("bookCommand", bookCommand);
         return "book/new";
     }
@@ -49,7 +49,7 @@ public class BookController {
         //bookCommand.setAuthorId(Long.valueOf(id));
         BookCommand savedBookCommand = bookService.saveBookCommand(bookCommand);
 
-        return "redirect:/author/" + savedBookCommand.getAuthorCommand().getId() + "/show";
+        return "redirect:/author/" + savedBookCommand.getId() + "/show";
     }
 
     @RequestMapping("book/{id}/delete")
