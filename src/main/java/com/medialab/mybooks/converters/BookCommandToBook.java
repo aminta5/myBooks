@@ -28,11 +28,10 @@ public class BookCommandToBook implements Converter<BookCommand, Book> {
 
         if(source.getAuthorId() != null){
             Author author = new Author();
-            author.setId(source.getId());
+            author.setId(source.getAuthorId());
             book.setAuthor(author);
             author.addBook(book);
         }
-        //book.setAuthor(authorCommandToAuthor.convert(source.getAuthorCommand()));
         book.setId(source.getId());
         book.setTitle(source.getTitle());
         book.setIsbn(source.getIsbn());

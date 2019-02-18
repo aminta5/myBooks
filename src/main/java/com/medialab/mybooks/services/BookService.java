@@ -8,6 +8,5 @@ import java.util.List;
 public interface BookService {
     List<Book> getBooks(Long id);
     BookCommand saveBookCommand(BookCommand command);
-    Book convert(BookCommand book);
     Book deleteById(Long id);
 }

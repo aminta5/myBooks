@@ -1,7 +1,5 @@
 package com.medialab.mybooks.model;
 
-import org.hibernate.annotations.Cascade;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
@@ -19,8 +17,7 @@ public class Author {
     @NotBlank(message = "Last name is required")
     private String lastName;
 
-    @OneToMany(mappedBy = "author")
-    @Cascade({org.hibernate.annotations.CascadeType.ALL})
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "author")
     private List<Book> books = new ArrayList<>();
 
     //constructors
@@ -70,6 +67,7 @@ public class Author {
     public List<Book> getBooks() {
         return books;
     }
+    public void setBooks(List<Book> books) {this.books = books;}
 
     public void addBook(Book book) {
         book.setAuthor(this);
@@ -90,4 +88,5 @@ public class Author {
     public int hashCode() {
         return Objects.hash(id, firstName, lastName);
     }
+
 }

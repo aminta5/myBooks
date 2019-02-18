@@ -1,9 +1,13 @@
 package com.medialab.mybooks.commands;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
 import java.util.List;
-
+@Getter
+@Setter
 public class AuthorCommand {
 
     private Long id;
@@ -22,7 +26,7 @@ public class AuthorCommand {
 
     //getters and setters
 
-    public Long getId() {
+   /* public Long getId() {
         return id;
     }
 
@@ -52,8 +56,18 @@ public class AuthorCommand {
 
     public void setBooks(List<BookCommand> books) {
         this.books = books;
-    }
+    }*/
     public void addBook(BookCommand book) {
         this.books.add(book);
+    }
+
+    @Override
+    public String toString() {
+        return "AuthorCommand{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", books=" + books +
+                '}';
     }
 }

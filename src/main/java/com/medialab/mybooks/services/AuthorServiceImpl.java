@@ -4,12 +4,10 @@ import com.medialab.mybooks.commands.AuthorCommand;
 import com.medialab.mybooks.converters.AuthorCommandToAuthor;
 import com.medialab.mybooks.converters.AuthorToAuthorCommand;
 import com.medialab.mybooks.model.Author;
-import com.medialab.mybooks.model.Book;
 import com.medialab.mybooks.repositories.AuthorRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Service
@@ -44,22 +42,6 @@ public class AuthorServiceImpl implements AuthorService{
         Author detachedAuthor = authorCommandToAuthor.convert(command);
         Author savedAuthor = authorRepository.save(detachedAuthor);
         return authorToAuthorCommand.convert(savedAuthor);
-    }
-
-    @Override
-    public List<Book> getBooks(Long id) {
-        Author author = authorRepository.findById(id).get();
-        return author.getBooks();
-    }
-
-    @Override
-    public AuthorCommand convert(Author author) {
-        return authorToAuthorCommand.convert(author);
-    }
-
-    @Override
-    public AuthorCommand findCommandById(Long id) {
-        return authorToAuthorCommand.convert(findById(id));
     }
 
     @Override

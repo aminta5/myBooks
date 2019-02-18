@@ -53,4 +53,14 @@ public class BookCommand {
     public void setIsbn(String isbn) {
         this.isbn = isbn;
     }
+
+    @Override
+    public String toString() {
+        return "BookCommand{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", isbn='" + isbn + '\'' +
+                ", authorId=" + authorId +
+                '}';
+    }
 }

@@ -1,7 +1,6 @@
 package com.medialab.mybooks.services;
 
 import com.medialab.mybooks.commands.BookCommand;
-import com.medialab.mybooks.converters.AuthorCommandToAuthor;
 import com.medialab.mybooks.converters.BookCommandToBook;
 import com.medialab.mybooks.converters.BookToBookCommand;
 import com.medialab.mybooks.model.Author;
@@ -23,16 +22,14 @@ public class BookServiceImpl implements BookService{
     private final BookCommandToBook bookCommandToBook;
     private final BookToBookCommand bookToBookCommand;
     private final BookRepository bookRepository;
-    private final AuthorCommandToAuthor authorCommandToAuthor;
 
     //constructor
 
-    public BookServiceImpl(AuthorRepository authorRepository, BookCommandToBook bookCommandToBook, BookToBookCommand bookToBookCommand, BookRepository bookRepository, AuthorCommandToAuthor authorCommandToAuthor) {
+    public BookServiceImpl(AuthorRepository authorRepository, BookCommandToBook bookCommandToBook, BookToBookCommand bookToBookCommand, BookRepository bookRepository/*, AuthorCommandToAuthor authorCommandToAuthor*/) {
         this.authorRepository = authorRepository;
         this.bookCommandToBook = bookCommandToBook;
         this.bookToBookCommand = bookToBookCommand;
         this.bookRepository = bookRepository;
-        this.authorCommandToAuthor = authorCommandToAuthor;
     }
 
     @Override
@@ -44,59 +41,30 @@ public class BookServiceImpl implements BookService{
         return null;
     }
 
-    /*@Override
-    public void saveBook(BookCommand book, Long id) {
-        Author author = authorRepository.findById(id).get();
-        author.getBooks().add(bookCommandToBook.convert(book));
-    }*/
-
     @Override
     @Transactional
     public BookCommand saveBookCommand(BookCommand command) {
-        Author author = authorRepository.findById(command.getAuthorId()).get();
+        Optional<Author> authorOptional = authorRepository.findById(command.getAuthorId());
+
+        if(!authorOptional.isPresent()){
+            log.error("Author not found for id: " + command.getAuthorId());
+            return new BookCommand();
+        }
+
+        Author author = authorOptional.get();
         Book book = bookCommandToBook.convert(command);
         book.setAuthor(author);
         author.addBook(book);
-        System.out.println(author.getBooks());
-
         Author savedAuthor = authorRepository.save(author);
-
         Optional<Book> savedBookOptional = savedAuthor.getBooks().stream().filter(book1 -> book1.getId().equals(command.getId())).findFirst();
-        System.out.println(savedBookOptional.isPresent() + " BOOKOPTIONAL");
+        if(!savedBookOptional.isPresent()){
+            savedBookOptional = savedAuthor.getBooks().stream().filter(book1 -> book1.getIsbn().equals(command.getIsbn())).findFirst();
+        }
+
         return bookToBookCommand.convert(savedBookOptional.get());
 
-
-        /*Book detachedBook = bookCommandToBook.convert(command);
-        Book savedBook = bookRepository.save(detachedBook);
-        return bookToBookCommand.convert(savedBook);*/
-
-
-
-
-        /*Author author = command.author;
-
-        System.out.println(command + " " + command.getAuthorId() + " authors ID");
-        Optional<Author> authorOptional = authorRepository.findById(command.getAuthorId());
-        if(!authorOptional.isPresent()){
-            log.error("Author not found for id: " + command.getAuthorId());
-        }
-        Author author = authorOptional.get();
-        System.out.println(author.getBooks());
-        Book detachedBook = bookCommandToBook.convert(command);
-        System.out.println(detachedBook);
-
-        author.addBook(detachedBook);
-        detachedBook.setAuthor(author);
-
-        Book savedBook = bookRepository.save(detachedBook);*/
-
-        //return bookToBookCommand.convert(savedBook);
     }
 
-    @Override
-    public Book convert(BookCommand book) {
-        return bookCommandToBook.convert(book);
-    }
 
     @Override
     public Book deleteById(Long id) {

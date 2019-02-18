@@ -1,5 +1,6 @@
 package com.medialab.mybooks.model;
 
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.Objects;
@@ -18,7 +19,7 @@ public class Book {
     private String isbn;
 
     @ManyToOne
-    @JoinColumn(name="authorId")
+    //@JoinColumn(name="authorId")
     private Author author;
 
 
@@ -74,7 +75,6 @@ public class Book {
     public void setIsbn(String isbn) {
         this.isbn = isbn;
     }
-
     @Override
     public String toString() {
         return title;
@@ -94,4 +94,5 @@ public class Book {
     public int hashCode() {
         return Objects.hash(id, title, isbn);
     }
+
 }

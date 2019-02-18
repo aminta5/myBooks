@@ -42,14 +42,12 @@ public class BookController {
 
     @PostMapping("/author/{id}/book")
     public String saveBook(@PathVariable String id, @Valid @ModelAttribute BookCommand bookCommand, Errors errors){
-
         if(errors.hasErrors()){
             return "book/new";
         }
-        //bookCommand.setAuthorId(Long.valueOf(id));
         BookCommand savedBookCommand = bookService.saveBookCommand(bookCommand);
 
-        return "redirect:/author/" + savedBookCommand.getId() + "/show";
+        return "redirect:/author/" + id + "/show";
     }
 
     @RequestMapping("book/{id}/delete")
