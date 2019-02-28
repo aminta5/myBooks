@@ -53,7 +53,7 @@ public class BookController {
     @RequestMapping("book/{id}/delete")
     public String delete(@PathVariable String id){
         Book book = bookService.deleteById(Long.valueOf(id));
-        return "redirect:/author/" + book.getAuthor().getId() + "/show";
+        return "redirect:/author/" + book.getAuthor().getId()  + "/show";
     }
 
 

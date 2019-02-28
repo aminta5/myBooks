@@ -87,34 +87,11 @@ public class AuthorServiceImplTest {
         assertEquals(authorCommand.getId(), savedCommand.getId());
     }
 
-    /*@Test
-    public void getBooks() {
-        List<Book> books = new ArrayList<>();
-        books.add(new Book());
-        books.add(new Book());
-        books.add(new Book());
-        Author author = new Author();
-        author.setId(1L);
-        author.setBooks(books);
-        Optional<Author> authorOptional = Optional.of(author);
-
-        when(authorRepository.findById(anyLong())).thenReturn(authorOptional);
-        List<Book> returnedBooks = service.getBooks(author.getId());
-
-        assertNotNull(returnedBooks);
-        assertEquals(returnedBooks.size(), 3);
-        verify(authorRepository, times(1)).findById(anyLong());
-    }*/
-
-    @Test
-    public void convert() {
-    }
-
-    @Test
-    public void findCommandById() {
-    }
-
     @Test
     public void deleteById() {
+        Long idToDelete = Long.valueOf(2L);
+        authorRepository.deleteById(idToDelete);
+
+        verify(authorRepository, times(1)).deleteById(anyLong());
     }
 }
